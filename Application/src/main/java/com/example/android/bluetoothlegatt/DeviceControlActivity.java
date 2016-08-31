@@ -267,6 +267,7 @@ public class DeviceControlActivity extends Activity {
                     new ArrayList<HashMap<String, String>>();
             List<BluetoothGattCharacteristic> gattCharacteristics =
                     gattService.getCharacteristics();
+            Log.d(TAG, "get characteristic num is"+gattCharacteristics.size());
             ArrayList<BluetoothGattCharacteristic> charas =
                     new ArrayList<BluetoothGattCharacteristic>();
 
@@ -279,6 +280,8 @@ public class DeviceControlActivity extends Activity {
                         LIST_NAME, SampleGattAttributes.lookup(uuid, unknownCharaString));
                 currentCharaData.put(LIST_UUID, uuid);
                 gattCharacteristicGroupData.add(currentCharaData);
+                gattCharacteristic.getProperties();
+                Log.d(TAG,"characteristic id"+gattCharacteristic.getProperties()+)
             }
             mGattCharacteristics.add(charas);
             gattCharacteristicData.add(gattCharacteristicGroupData);

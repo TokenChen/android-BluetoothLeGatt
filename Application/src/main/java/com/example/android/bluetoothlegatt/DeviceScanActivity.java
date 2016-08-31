@@ -19,6 +19,7 @@ package com.example.android.bluetoothlegatt;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
@@ -26,6 +27,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +39,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Activity for scanning and displaying available Bluetooth LE devices.
@@ -124,7 +128,19 @@ public class DeviceScanActivity extends ListActivity {
         // Initializes list view adapter.
         mLeDeviceListAdapter = new LeDeviceListAdapter();
         setListAdapter(mLeDeviceListAdapter);
-        scanLeDevice(true);
+        if(mBluetoothAdapter.getBondedDevices() != null && mBluetoothAdapter.getBondedDevices().size() > 0){
+            Set<BluetoothDevice> deviceSet = mBluetoothAdapter.getBondedDevices();
+            Iterator iterator = deviceSet.iterator();
+            while (iterator.hasNext()){
+                BluetoothDevice device = (BluetoothDevice) iterator.next();
+                mLeDeviceListAdapter.addDevice(device);
+                Log.d("BLETest","bounded devices is :"+device.getName());
+            }
+            mLeDeviceListAdapter.notifyDataSetChanged();
+        }else {
+
+            scanLeDevice(true);
+        }
     }
 
     @Override
