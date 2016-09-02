@@ -21,7 +21,11 @@ dependencies {
     compile "com.android.support:cardview-v7:24.1.1"
     compile "com.android.support:appcompat-v7:24.1.1"
 }
-
+        android{
+            lintOptions{
+                abortOnError false
+            }
+        }
 // The sample build uses multiple directories to
 // keep boilerplate and common code separate from
 // the main sample code.

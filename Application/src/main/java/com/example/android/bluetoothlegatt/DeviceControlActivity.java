@@ -66,6 +66,7 @@ public class DeviceControlActivity extends Activity {
     private final String LIST_UUID = "UUID";
 
     // Code to manage Service lifecycle.
+
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
         @Override
@@ -84,7 +85,6 @@ public class DeviceControlActivity extends Activity {
             mBluetoothLeService = null;
         }
     };
-
     // Handles various events fired by the Service.
     // ACTION_GATT_CONNECTED: connected to a GATT server.
     // ACTION_GATT_DISCONNECTED: disconnected from a GATT server.
@@ -122,6 +122,9 @@ public class DeviceControlActivity extends Activity {
                 @Override
                 public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
                                             int childPosition, long id) {
+                    Intent intent = new Intent(DeviceControlActivity.this, CharactersiticDetailActivity.class);
+                    intent.putExtra(BluetoothLeService.EXTRA_DEVICE_ADDRESS,mDeviceAddress);
+                    startActivity(intent);
                     if (mGattCharacteristics != null) {
                         final BluetoothGattCharacteristic characteristic =
                                 mGattCharacteristics.get(groupPosition).get(childPosition);
@@ -281,7 +284,11 @@ public class DeviceControlActivity extends Activity {
                 currentCharaData.put(LIST_UUID, uuid);
                 gattCharacteristicGroupData.add(currentCharaData);
                 gattCharacteristic.getProperties();
-                Log.d(TAG,"characteristic id"+gattCharacteristic.getProperties()+)
+                Log.d(TAG,"=====characteristic properties"+gattCharacteristic.getProperties()+"\n" +
+                        "=====characteristic instanceid is:"+gattCharacteristic.getInstanceId()+"\n" +
+                        "=====characteristic permission is :"+gattCharacteristic.getPermissions()+"\n" +
+                        "=====characteristic uuid is"+gattCharacteristic.getUuid()+"\n" +
+                        "=====characteristic write type is"+gattCharacteristic.getWriteType());
             }
             mGattCharacteristics.add(charas);
             gattCharacteristicData.add(gattCharacteristicGroupData);
